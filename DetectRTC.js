@@ -81,8 +81,9 @@
 
     var isOpera = !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
     var isFirefox = typeof window.InstallTrigger !== 'undefined';
-    var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent || '') && !(/CriOS/i.test(navigator.userAgent || '')) && !(/FxiOS/i.test(navigator.userAgent || ''));
+    var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     var isChrome = !!window.chrome && !isOpera;
+    var isCriOS = /CriOS/i.test(navigator.userAgent);
     var isIE = typeof document !== 'undefined' && !!document.documentMode && !isEdge;
 
     // this one can also be used:
@@ -124,6 +125,12 @@
             verOffset = nAgt.indexOf('Chrome');
             browserName = 'Chrome';
             fullVersion = nAgt.substring(verOffset + 7);
+        }
+        // In Chrome, the true version is after 'Chrome'
+        else if (isCriOS) {
+            verOffset = nAgt.indexOf('CriOS');
+            browserName = 'CriOS';
+            fullVersion = nAgt.substring(verOffset + 6);
         }
         // In Safari, the true version is after 'Safari' or after 'Version' 
         else if (isSafari) {
